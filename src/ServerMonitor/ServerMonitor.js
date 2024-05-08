@@ -3,57 +3,96 @@ import axios from "axios";
 
 const ServerMonitor = () => {
   const [serverStatus, setServerStatus] = useState({});
-  const [countdown, setCountdown] = useState(30 * 60); // Countdown starts at 15 minutes
+  const [countdown, setCountdown] = useState(30 * 60); // Countdown starts at 30 minutes
 
   const fetchServerStatus = () => {
-    axios.get("https://server-status-hkdrdssh1-usupals-projects.vercel.app/checkServerStatus").then((response) => {
-      setServerStatus(response.data);
-      setCountdown(30 * 60); // Reset countdown
-    });
+    axios
+      .get(
+        "https://server-status-hkdrdssh1-usupals-projects.vercel.app/checkServerStatus"
+      )
+      .then((response) => {
+        setServerStatus(response.data);
+      });
+  };
+
+  const handleRefresh = () => {
+    setCountdown(30 * 60); // Fetch server status on manual refresh
   };
 
   useEffect(() => {
-    const fetchInterval = setInterval(fetchServerStatus, 30 * 60 * 1000); // Check every 15 minutes
+    // Fetch server status on initial mount
+    fetchServerStatus();
 
+    // Set interval to fetch server status every 30 minutes
+    const fetchInterval = setInterval(fetchServerStatus, 30 * 60 * 1000);
+
+    // Countdown interval to decrease countdown every second
     const countdownInterval = setInterval(() => {
       setCountdown((prevCountdown) => prevCountdown - 1);
-    }, 1000); // Decrease countdown every second
+    }, 1000);
 
+    // Clear intervals on component unmount
     return () => {
-      clearInterval(fetchInterval); // Clear fetch interval
-      clearInterval(countdownInterval); // Clear countdown interval
+      clearInterval(fetchInterval);
+      clearInterval(countdownInterval);
     };
-  }, []);
+  }, []); // Empty dependency array ensures the effect runs only on mount
 
   const countdownMinutes = Math.floor(countdown / 60);
   const countdownSeconds = countdown % 60;
 
   return (
-    
-    <div style={{ margin: "20px", padding: "10px", fontFamily: "Arial, sans-serif" }}>
-    <h1>KEOS Monitor</h1>
+    <div
+      style={{
+        margin: "20px",
+        padding: "10px",
+        fontFamily: "Arial, sans-serif",
+      }}
+    >
+      <h1>KEOS Monitor</h1>
       <div style={{ marginBottom: "10px" }}>
-        Refreshing in {countdownMinutes}:{countdownSeconds < 10 ? `0${countdownSeconds}` : countdownSeconds}...
+        Refreshing in {countdownMinutes}:
+        {countdownSeconds < 10 ? `0${countdownSeconds}` : countdownSeconds}...
       </div>
-      <button 
-        onClick={fetchServerStatus} 
-        style={{ marginBottom: "20px", padding: "10px", fontSize: "16px", color: "white", backgroundColor: "blue", border: "none"}}
+      <button
+        onClick={() => {
+          handleRefresh();
+          fetchServerStatus(); // Call fetchServerStatus directly here
+        }}
+        style={{
+          marginBottom: "20px",
+          padding: "10px",
+          fontSize: "16px",
+          color: "white",
+          backgroundColor: "blue",
+          border: "none",
+          transition: "background-color 0.3s",
+          cursor: "pointer",
+        }}
+        // Add hover effect
+        onMouseEnter={(e) => (e.target.style.backgroundColor = "#1e90ff")}
+        onMouseLeave={(e) => (e.target.style.backgroundColor = "blue")}
       >
         Refresh
       </button>
       <ol>
         {Object.entries(serverStatus).map(([server, status]) => (
           <li key={server} style={{ marginBottom: "10px" }}>
-            <a 
-              href={`${server}`} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+            <a
+              href={`${server}`}
+              target='_blank'
+              rel='noopener noreferrer'
               style={{ marginRight: "10px" }}
             >
               {server}
             </a>
             is
-            <span style={{ color: status === "up" ? "green" : "red", marginLeft: "10px" }}>
+            <span
+              style={{
+                color: status === "up" ? "green" : "red",
+                marginLeft: "10px",
+              }}
+            >
               {status}
             </span>
           </li>
