@@ -8,7 +8,7 @@ const ServerMonitor = () => {
   const fetchServerStatus = () => {
     axios
       .get(
-        "https://server-status-hkdrdssh1-usupals-projects.vercel.app/checkServerStatus"
+        "https://server-status-api.vercel.app/checkServerStatus"
       )
       .then((response) => {
         setServerStatus(response.data);
