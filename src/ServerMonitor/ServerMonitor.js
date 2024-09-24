@@ -7,9 +7,7 @@ const ServerMonitor = () => {
 
   const fetchServerStatus = () => {
     axios
-      .get(
-        "https://server-status-api.vercel.app/checkServerStatus"
-      )
+      .get("https://server-status-api.vercel.app/checkServerStatus")
       .then((response) => {
         setServerStatus(response.data);
       });
@@ -42,63 +40,66 @@ const ServerMonitor = () => {
   const countdownSeconds = countdown % 60;
 
   return (
-    <div
-      style={{
-        margin: "20px",
-        padding: "10px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <h1>KEOS Monitor</h1>
-      <div style={{ marginBottom: "10px" }}>
-        Refreshing in {countdownMinutes}:
-        {countdownSeconds < 10 ? `0${countdownSeconds}` : countdownSeconds}...
-      </div>
-      <button
-        onClick={() => {
-          handleRefresh();
-          fetchServerStatus(); // Call fetchServerStatus directly here
-        }}
-        style={{
-          marginBottom: "20px",
-          padding: "10px",
-          fontSize: "16px",
-          color: "white",
-          backgroundColor: "blue",
-          border: "none",
-          transition: "background-color 0.3s",
-          cursor: "pointer",
-        }}
-        // Add hover effect
-        onMouseEnter={(e) => (e.target.style.backgroundColor = "#1e90ff")}
-        onMouseLeave={(e) => (e.target.style.backgroundColor = "blue")}
-      >
-        Refresh
-      </button>
-      <ol>
-        {Object.entries(serverStatus).map(([server, status]) => (
-          <li key={server} style={{ marginBottom: "10px" }}>
-            <a
-              href={`${server}`}
-              target='_blank'
-              rel='noopener noreferrer'
-              style={{ marginRight: "10px" }}
-            >
-              {server}
-            </a>
-            is
-            <span
-              style={{
-                color: status === "up" ? "green" : "red",
-                marginLeft: "10px",
-              }}
-            >
-              {status}
-            </span>
-          </li>
-        ))}
-      </ol>
-    </div>
+    <>
+      <h1>to run this, contact: +8801705933999(whatsapp)- UDYAN SAHA UPAL </h1>
+    </>
+    // <div
+    //   style={{
+    //     margin: "20px",
+    //     padding: "10px",
+    //     fontFamily: "Arial, sans-serif",
+    //   }}
+    // >
+    //   <h1>KEOS Monitor</h1>
+    //   <div style={{ marginBottom: "10px" }}>
+    //     Refreshing in {countdownMinutes}:
+    //     {countdownSeconds < 10 ? `0${countdownSeconds}` : countdownSeconds}...
+    //   </div>
+    //   <button
+    //     onClick={() => {
+    //       handleRefresh();
+    //       fetchServerStatus(); // Call fetchServerStatus directly here
+    //     }}
+    //     style={{
+    //       marginBottom: "20px",
+    //       padding: "10px",
+    //       fontSize: "16px",
+    //       color: "white",
+    //       backgroundColor: "blue",
+    //       border: "none",
+    //       transition: "background-color 0.3s",
+    //       cursor: "pointer",
+    //     }}
+    //     // Add hover effect
+    //     onMouseEnter={(e) => (e.target.style.backgroundColor = "#1e90ff")}
+    //     onMouseLeave={(e) => (e.target.style.backgroundColor = "blue")}
+    //   >
+    //     Refresh
+    //   </button>
+    //   <ol>
+    //     {Object.entries(serverStatus).map(([server, status]) => (
+    //       <li key={server} style={{ marginBottom: "10px" }}>
+    //         <a
+    //           href={`${server}`}
+    //           target='_blank'
+    //           rel='noopener noreferrer'
+    //           style={{ marginRight: "10px" }}
+    //         >
+    //           {server}
+    //         </a>
+    //         is
+    //         <span
+    //           style={{
+    //             color: status === "up" ? "green" : "red",
+    //             marginLeft: "10px",
+    //           }}
+    //         >
+    //           {status}
+    //         </span>
+    //       </li>
+    //     ))}
+    //   </ol>
+    // </div>
   );
 };
 
